@@ -1,25 +1,25 @@
 'use strict';
 
 var response = require('./res');
-var connection = require('./connection');
+var connection = require('./koneksi');
 
 exports.index = function (req, res) {
-    response.ok("Aplikasi nya jalan", res);
+    response.ok("Aplikasi REST API ku berjalan!", res)
 };
 
-//nampilin data nya dari database
-
-exports.tampilSemuaMahasiswa = function (req, res) {
+//menampilkan semua data mahasiswa
+exports.tampilsemuamahasiswa = function (req, res) {
     connection.query('SELECT * FROM mahasiswa', function (error, rows, fileds) {
         if (error) {
-            connection.log(error);
+            console.log(error);
         } else {
             response.ok(rows, res)
         }
     });
 };
 
-exports.tampilById = function (req, res) {
+//menampilkan semua data mahasiwa berdasarkan id
+exports.tampilberdasarkanid = function (req, res) {
     let id = req.params.id;
     connection.query('SELECT * FROM mahasiswa WHERE id_mahasiswa = ?', [id],
         function (error, rows, fields) {
@@ -28,11 +28,10 @@ exports.tampilById = function (req, res) {
             } else {
                 response.ok(rows, res);
             }
-        }
-    );
+        });
 };
 
-///menambahkan data mahasiswa
+//menambahkan data mahasiswa
 exports.tambahMahasiswa = function (req, res) {
     var nim = req.body.nim;
     var nama = req.body.nama;
